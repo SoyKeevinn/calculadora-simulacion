@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teoría de Colas</title>
+  <link rel="stylesheet" href="index.css" />
+</head>
+
+<body class="grid-container">
+  <header class="header">
+    <h2>Teoría de Colas</h2>
+  </header>
+  <nav class="navbar">
+    <button id="btn1">PICM</button>
+    <button id="btn2">PFCM</button>
+    <!-- <button id="btn3">Botón 3</button> -->
+  </nav>
+  <!-- <aside class="sidebar">sidebar</aside> -->
+  <article class="main" id="main-content">
+    <div id="contenido-1" class="contenido">
+      <h2>Modelo Matemático PICM - M/M/k - Parámetros del Modelo</h2>
+      <!-- <div class="informacion">
+        <p>
+          <span class="bullet">&#8226;</span> M &rarr; &infin; <br>
+          <span class="bullet">&#8226;</span> K &gt; 1; debe ser conocido. <br>
+          <span class="bullet">&#8226;</span> &lambda; (lambda): Tasa a la cual llegan los clientes para ser
+          atendidos. <br>
+          <span class="bullet">&#8226;</span> &mu; (mu): Tasa a la cual cada unidad de servicio puede atender al
+          cliente. <br>
+          <span class="bullet">&#8226;</span> k: Número de unidades de servicio. <br>
+          CONDICIÓN DE ESTABILIDAD DEL SISTEMA: k&mu; &gt; &lambda;
+        </p>
+      </div> -->
+
+      <!-- /////////////////////////////////////////////////////////////////// -->
+
+      <div style="display: grid; gap: 30px; margin-top: 20px;">
+        <div style="display: grid; grid-template-columns: 1fr 0.5fr 2.5fr;">
+          <div class="ingreso">
+            <div>
+              <label for="input1">λ :</label>
+              <input type="number" id="input1" min="0" step="any" pattern="[0-9]+([.,][0-9]+)?"
+                title="Ingresa números enteros o decimales" required>
+            </div>
+            <div>
+              <label for="input2">µ :</label>
+              <input type="number" id="input2" min="0" step="any" pattern="[0-9]+([.,][0-9]+)?"
+                title="Ingresa números enteros o decimales" required>
+            </div>
+            <div>
+              <label for="input3">k :</label>
+              <input type="number" id="input3" min="0" step="any" pattern="[0-9]+([.,][0-9]+)?"
+                title="Ingresa números enteros o decimales" required>
+            </div>
+          </div>
+
+          <div style="display: grid; place-items: center; padding-top: 10px;">
+            <button onclick="calcularResultado1()">Calcular</button>
+          </div>
+          <!-- <br> -->
+          <div style="display: grid; grid-template-columns: 2fr 1fr;">
+            <table>
+              <tbody style="display: grid; justify-items: end;">
+                <tr>
+                  <td>
+                    <p class="resultado-titulo">Probabilidad de hallar el sistema completamente vacío</p>
+                  </td>
+                  <!-- <td>
+                    <p id="P0" class="resultado"></p>
+                  </td> -->
+                </tr>
+                <tr>
+                  <td>
+                    <p class="resultado-titulo">Probabilidad de que un usuario que llega, tenga que esperar</p>
+                  </td>
+                  <!-- <td>
+                    <p id="Pk" class="resultado"></p>
+                  </td> -->
+                </tr>
+                <tr>
+                  <td>
+                    <p class="resultado-titulo">Probabilidad de que un usuario que llega no tenga que esperar</p>
+                  </td>
+                  <!-- <td>
+                    <p id="PNE" class="resultado"></p>
+                  </td> -->
+                </tr>
+                <tr>
+                  <td>
+                    <p class="resultado-titulo">Número esperado de clientes en el sistema</p>
+                  </td>
+                  <!-- <td>
+                    <p id="L" class="resultado"></p>
+                  </td> -->
+                </tr>
+                <tr>
+                  <td>
+                    <p class="resultado-titulo">Número esperado de clientes en la cola</p>
+                  </td>
+                  <!-- <td>
+                    <p id="Lq" class="resultado"></p>
+                  </td> -->
+                </tr>
+                <tr>
+                  <td>
+                    <p class="resultado-titulo">Número esperado de clientes en la cola no vacía</p>
+                  </td>
+                  <!-- <td>
+                    <p id="Ln" class="resultado"></p>
+                  </td> -->
+                </tr>
+                <tr>
+                  <td>
+                    <p class="resultado-titulo">Tiempo esperado en el sistema</p>
+                  </td>
+                  <!-- <td>
+                    <p id="W" class="resultado"></p>
+                  </td> -->
+                </tr>
+                <tr>
+                  <td>
+                    <p class="resultado-titulo">Tiempo esperado en cola</p>
+                  </td>
+                  <!-- <td>
+                    <p id="Wq" class="resultado"></p>
+                  </td> -->
+                </tr>
+                <tr>
+                  <td>
+                    <p class="resultado-titulo">Tiempo esperado en cola para colas no vacías</p>
+                  </td>
+                  <!-- <td>
+                    <p id="Wn" class="resultado"></p>
+                  </td> -->
+                </tr>
+              </tbody>
+            </table>
+            <table>
+              <tbody style="display: grid; justify-items: baseline;">
+                <tr>
+                  <!-- <td>
+                    <p class="resultado-titulo">Probabilidad de hallar el sistema completamente vacío</p>
+                  </td> -->
+                  <td>
+                    <p id="P0" class="resultado"></p>
+                  </td>
+                </tr>
+                <tr>
+                  <!-- <td>
+                    <p class="resultado-titulo">Probabilidad de que un usuario que llega, tenga que esperar</p>
+                  </td> -->
+                  <td>
+                    <p id="Pk" class="resultado"></p>
+                  </td>
+                </tr>
+                <tr>
+                  <!-- <td>
+                    <p class="resultado-titulo">Probabilidad de que un usuario que llega no tenga que esperar</p>
+                  </td> -->
+                  <td>
+                    <p id="PNE" class="resultado"></p>
+                  </td>
+                </tr>
+                <tr>
+                  <!-- <td>
+                    <p class="resultado-titulo">Número esperado de clientes en el sistema</p>
+                  </td> -->
+                  <td>
+                    <p id="L" class="resultado"></p>
+                  </td>
+                </tr>
+                <tr>
+                  <!-- <td>
+                    <p class="resultado-titulo">Número esperado de clientes en la cola</p>
+                  </td> -->
+                  <td>
+                    <p id="Lq" class="resultado"></p>
+                  </td>
+                </tr>
+                <tr>
+                  <!-- <td>
+                    <p class="resultado-titulo">Número esperado de clientes en la cola no vacía</p>
+                  </td> -->
+                  <td>
+                    <p id="Ln" class="resultado"></p>
+                  </td>
+                </tr>
+                <tr>
+                  <!-- <td>
+                    <p class="resultado-titulo">Tiempo esperado en el sistema</p>
+                  </td> -->
+                  <td>
+                    <p id="W" class="resultado"></p>
+                  </td>
+                </tr>
+                <tr>
+                  <!-- <td>
+                    <p class="resultado-titulo">Tiempo esperado en cola</p> -->
+                  </td>
+                  <td>
+                    <p id="Wq" class="resultado"></p>
+                  </td>
+                </tr>
+                <tr>
+                  <!-- <td>
+                    <p class="resultado-titulo">Tiempo esperado en cola para colas no vacías</p>
+                  </td> -->
+                  <td>
+                    <p id="Wn" class="resultado"></p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- <div class="resultados-contenedor" style="display: grid; justify-content: end; justify-items: end;">
+            </div>
+            <div style="display: grid; place-content: baseline;">
+            </div> -->
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 0.5fr 2.5fr; align-items: center;">
+
+          <div style="display: grid; ">
+            <div>
+              <label>n :</label>
+              <input type="number" id="input4" min="0" step="any" pattern="[0-9]+([.,][0-9]+)?"
+                title="Ingresa números enteros o decimales" required />
+            </div>
+          </div>
+
+          <div style="display: grid; place-content: center;">
+            <button class="custom-btn btn-3" onclick="calcularResultado2()">Calcular</button>
+          </div>
+          <div style="display: grid;">
+            <div>
+              <p>La probabilidad de hallar exactamente n clientes dentro del sistema:</p>
+              <p id="Pn"></p>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 0.5fr 2.5fr; align-items: center ">
+          <div>
+            <div>
+              <p>COSTOS</p>
+            </div>
+            <div>
+              <label>horas :</label>
+              <input type="number" id="input5" min="0" step="any" pattern="[0-9]+([.,][0-9]+)?"
+                title="Ingresa números enteros o decimales" required />
+            </div>
+            <div>
+              <label>CTE $/h:</label>
+              <input type="number" id="input6" min="0" step="any" pattern="[0-9]+([.,][0-9]+)?"
+                title="Ingresa números enteros o decimales" required />
+            </div>
+            <div>
+              <label>CTS $/h:</label>
+              <input type="number" id="input7" min="0" step="any" pattern="[0-9]+([.,][0-9]+)?"
+                title="Ingresa números enteros o decimales" required />
+            </div>
+            <div>
+              <label>CTSE $/h:</label>
+              <input type="number" id="input8" min="0" step="any" pattern="[0-9]+([.,][0-9]+)?"
+                title="Ingresa números enteros o decimales" required />
+            </div>
+            <div>
+              <label>CS $/h:</label>
+              <input type="number" id="input9" min="0" step="any" pattern="[0-9]+([.,][0-9]+)?"
+                title="Ingresa números enteros o decimales" required />
+            </div>
+          </div>
+          <div>
+            <button onclick="calcularResultado3()">Calcular</button>
+          </div>
+          <div style="display: grid; grid-template-columns: 2fr 1fr;" >
+            <table>
+              <tbody style="display: grid; justify-items: end;" >
+                <tr>
+                  <td>
+                    <p class="resultado-titulo">Costo Diario por el Tiempo de Espera en Cola</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p class="resultado-titulo">Costo Diario por el Tiempo en el Sistema</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p class="resultado-titulo">Costo Diario por el Tiempo de Servicio </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p class="resultado-titulo">Costo Diario del Servidor</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p class="resultado-titulo">Costo Total Diario del Sistema:</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <table>
+              <tbody style="display: grid; justify-items: baseline;" >
+                <tr>
+                  <td>
+                    <p id="CTTE" class="resultado" ></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p id="CTTS" class="resultado" ></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p id="CTTSer" class="resultado" ></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p id="CTS" class="resultado" ></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p id="CT" class="resultado" ></p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+    <div id="contenido-2" class="contenido">
+      <h2>Modelo Matemático PFCM - Parámetros del Modelo</h2>
+
+      <div style="display: grid; gap: 30px; margin-top: 20px;" >
+        <div style="display: grid; grid-template-columns: 1fr 0.5fr 2.5fr;" >
+          <div class="ingreso">
+            <div>
+              <label for="input1">M :</label>
+              <input type="number" id="inputM" min="0" step="any" pattern="[0-9]+([.,][0-9]+)?"
+                title="Ingresa números enteros o decimales" required>
+            </div>
+            <div>
+              <label for="input2">λ :</label>
+              <input type="number" id="inputL" min="0" step="any" pattern="[0-9]+([.,][0-9]+)?"
+                title="Ingresa números enteros o decimales" required>
+            </div>
+            <div>
+              <label for="input3">µ :</label>
+              <input type="number" id="inputU" min="0" step="any" pattern="[0-9]+([.,][0-9]+)?"
+                title="Ingresa números enteros o decimales" required>
+            </div>
+            <div>
+              <label for="input4">k :</label>
+              <input type="number" id="inputK" min="0" step="any" pattern="[0-9]+([.,][0-9]+)?"
+                title="Ingresa números enteros o decimales" required>
+            </div>
+            <div>
+              <label for="input5">n :</label>
+              <input type="number" id="inputN" min="0" step="any" pattern="[0-9]+([.,][0-9]+)?"
+                title="Ingresa números enteros o decimales" required>
+            </div>
+    
+          </div>
+
+          <div style="display: grid; place-items: center; padding-top: 10px;" >
+            <button onclick="calcularResultado4()">Calcular</button>
+          </div>
+          
+          <div class="resultados-contenedor" style="display: grid; grid-template-columns: 2fr 1fr;">
+            <table>
+              <tbody style="display: grid; justify-items: end;" >
+                <tr>
+                  <td>
+                    <p class="resultado-titulo">Probabilidad de hallar el sistema completamente vacío</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p class="resultado-titulo">Probabilidad de hallar n clientes el sistema </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p class="resultado-titulo">Probabilidad de que un usuario que llega, tenga que esperar</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p class="resultado-titulo">Probabilidad de que un usuario que llega no tenga que esperar</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p class="resultado-titulo">Número esperado de clientes en el sistema</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p class="resultado-titulo">Número esperado de clientes en la cola</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p class="resultado-titulo">Número esperado de clientes en la cola no vacía</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p class="resultado-titulo">Tiempo esperado en el sistema</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p class="resultado-titulo">Tiempo esperado en cola</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p class="resultado-titulo">Tiempo esperado en cola para colas no vacías</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <table>
+              <tbody style="display: grid; justify-items: baseline;" >
+                <tr>
+                  <td>
+                    <p id="P0-F" class="resultado"></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p id="Pn-F" class="resultado"></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p id="PE-F" class="resultado"></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p id="PNE-F" class="resultado"></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p id="L-F" class="resultado"></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p id="Lq-F" class="resultado"></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p id="Ln-F" class="resultado"></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p id="W-F" class="resultado"></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p id="Wq-F" class="resultado"></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p id="Wn-F" class="resultado"></p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+    
+    
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 0.5fr 2.5fr; align-items: center ">
+          <div>
+            <div>
+              <p>COSTOS</p>
+            </div>
+            <div>
+              <label>horas :</label>
+              <input type="number" id="input10" min="0" step="any" pattern="[0-9]+([.,][0-9]+)?"
+                title="Ingresa números enteros o decimales" required />
+            </div>
+            <div>
+              <label>CTE $/h:</label>
+              <input type="number" id="input11" min="0" step="any" pattern="[0-9]+([.,][0-9]+)?"
+                title="Ingresa números enteros o decimales" required />
+            </div>
+            <div>
+              <label>CTS $/h:</label>
+              <input type="number" id="input12" min="0" step="any" pattern="[0-9]+([.,][0-9]+)?"
+                title="Ingresa números enteros o decimales" required />
+            </div>
+            <div>
+              <label>CTSE $/h:</label>
+              <input type="number" id="input13" min="0" step="any" pattern="[0-9]+([.,][0-9]+)?"
+                title="Ingresa números enteros o decimales" required />
+            </div>
+            <div>
+              <label>CS $/h:</label>
+              <input type="number" id="input14" min="0" step="any" pattern="[0-9]+([.,][0-9]+)?"
+                title="Ingresa números enteros o decimales" required />
+            </div>
+          </div>
+  
+          <div>
+            <button onclick="calcularResultado5()">Calcular</button>
+          </div>
+  
+          <div style="display: grid; grid-template-columns: 2fr 1fr;" >
+            <table>
+              <tbody style="display: grid; justify-items: end;" >
+                <tr>
+                  <td>
+                    <p class="resultado-titulo">Costo Diario por el Tiempo de Espera en Cola</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p class="resultado-titulo">Costo Diario por el Tiempo en el Sistema</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p class="resultado-titulo">Costo Diario por el Tiempo de Servicio </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p class="resultado-titulo">Costo Diario del Servidor</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p class="resultado-titulo">Costo Total Diario del Sistema:</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+  
+            <table>
+              <tbody style="display: grid; justify-items: baseline;" >
+                <tr>
+                  <td>
+                    <p id="CTTE2" class="resultado" ></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p id="CTTS2" class="resultado" ></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p id="CTTSer2" class="resultado" ></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p id="CTS2" class="resultado" ></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p id="CT2" class="resultado" ></p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+  
+        </div>
+      </div>
+
+
+
+      <!-- <p id="CTTE2"></p>
+      <br>
+      <p id="CTTS2"></p>
+      <br>
+      <p id="CTTSer2"></p>
+      <br>
+      <p id="CTS2"></p>
+      <br>
+      <p>Costo Total Diario del Sistema:</p>
+      <br>
+      <p id="CT2"></p>
+      <br> -->
+
+
+
+
+
+
+    </div>
+
+    <div id="contenido-3" class="contenido">
+
+      <button onclick="calcularResultado3()">Calcular</button>
+      <p id="resultado3"></p>
+    </div>
+  </article>
+  <footer class="footer"></footer>
+  <script src="index.js"></script>
+</body>
+
+</html>
