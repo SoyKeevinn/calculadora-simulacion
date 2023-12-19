@@ -63,12 +63,13 @@ body{
 }
 @media (min-width: 600px){
     .grid-container{
-        grid-template: 
-        "header     header " 10%
-        "navbar     navbar " 50px
-        "sidebar    main"   80%
-        "footer     footer" 10% /
-        200px       auto;
+      grid-template: 
+      "header     header " 100px
+      "navbar     navbar " 50px
+      "sidebar    main"   auto
+      "footer     footer" 100px /
+      200px       auto;
+        
     
     }
     .navbar{
@@ -77,12 +78,11 @@ body{
 }
 @media (min-width: 900px){
     .grid-container{
-        grid-template: 
-        "header     header  header " 10%
-        "navbar     main    main"   80%
-        "footer     footer  footer" 10% /
-        200px       auto    200px;
-        overflow: hidden;
+      grid-template: 
+      "header     header  header " 100px
+      "navbar     main    main"   auto
+      "footer     footer  footer" 80px /
+      200px       auto    200px;
     }
     .navbar{
         flex-direction: column;
